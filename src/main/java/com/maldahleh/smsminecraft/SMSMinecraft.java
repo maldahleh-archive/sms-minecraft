@@ -1,6 +1,6 @@
 package com.maldahleh.smsminecraft;
 
-import com.maldahleh.smsminecraft.exceptions.MissingConfigException;
+import com.maldahleh.smsminecraft.exceptions.InvalidPropertyException;
 import com.maldahleh.smsminecraft.twilio.TwilioProvider;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,7 +13,7 @@ public class SMSMinecraft extends JavaPlugin {
     public void onEnable() {
         try {
             twilioProvider = new TwilioProvider(getConfig().getConfigurationSection("twilio"));
-        } catch (MissingConfigException e) {
+        } catch (InvalidPropertyException e) {
             getLogger().severe("Plugin shutting down; error=" + e.getMessage());
             getPluginLoader().disablePlugin(this);
         }
