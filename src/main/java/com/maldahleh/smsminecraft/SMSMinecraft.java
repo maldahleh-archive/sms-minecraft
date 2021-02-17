@@ -11,6 +11,8 @@ public class SMSMinecraft extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
+
         try {
             twilioProvider = new TwilioProvider(getConfig().getConfigurationSection("twilio"));
         } catch (InvalidPropertyException e) {
