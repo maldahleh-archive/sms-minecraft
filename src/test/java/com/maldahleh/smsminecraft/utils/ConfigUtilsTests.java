@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
-public class ConfigUtilsTest {
+public class ConfigUtilsTests {
     private final ConfigurationSection configurationSection = mock(ConfigurationSection.class);
 
     @Test
