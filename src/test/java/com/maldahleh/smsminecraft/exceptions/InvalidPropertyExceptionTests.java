@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InvalidPropertyExceptionTests {
-    @Test
-    public void messageCorrectWhenConstructed() {
-        // GIVEN
-        String property = "dummyProperty";
-        Exception e = new InvalidPropertyException(property);
+  @Test
+  public void messageCorrectWhenConstructed() {
+    // GIVEN
+    String property = "dummyProperty";
+    Exception e = new InvalidPropertyException(property);
 
-        // THEN
-        assertEquals("'dummyProperty' is required.", e.getMessage());
-    }
+    // THEN
+    assertEquals("'dummyProperty' is required.", e.getMessage());
+  }
 }
