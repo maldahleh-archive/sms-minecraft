@@ -21,60 +21,63 @@ import static org.powermock.api.mockito.PowerMockito.*;
 
 @RunWith(PowerMockRunner.class)
 public class TwilioProviderTests {
-    private final ConfigurationSection configurationSection = mock(ConfigurationSection.class);
+  private final ConfigurationSection configurationSection = mock(ConfigurationSection.class);
 
-    @Test
-    @SneakyThrows
-    @PrepareForTest(Twilio.class)
-    public void twilioProviderInstantiatedCorrectly() {
-        // GIVEN
-        String sid = "sid";
-        String authToken = "authToken";
+  @Test
+  @SneakyThrows
+  @PrepareForTest(Twilio.class)
+  public void twilioProviderInstantiatedCorrectly() {
+    // GIVEN
+    String sid = "sid";
+    String authToken = "authToken";
 
-        // WHEN
-        when(configurationSection.getString(Constants.CONFIG_SID)).thenReturn(sid);
-        when(configurationSection.getString(Constants.CONFIG_TOKEN)).thenReturn(authToken);
-        PowerMockito.mockStatic(Twilio.class);
+    // WHEN
+    when(configurationSection.getString(Constants.CONFIG_SID)).thenReturn(sid);
+    when(configurationSection.getString(Constants.CONFIG_TOKEN)).thenReturn(authToken);
+    PowerMockito.mockStatic(Twilio.class);
 
-        // THEN
-        new TwilioProvider(configurationSection);
+    // THEN
+    new TwilioProvider(configurationSection);
+  }
+
+  @Test
+  public void missingCredentialsThrowsInvalidPropertyException() {
+    // GIVEN
+    String sid = "sid";
+    String authToken = "";
+
+    // WHEN
+    when(configurationSection.getString(Constants.CONFIG_SID)).thenReturn(sid);
+    when(configurationSection.getString(Constants.CONFIG_TOKEN)).thenReturn(authToken);
+
+    // THEN
+    Exception exception =
+        assertThrows(
+            InvalidPropertyException.class, () -> new TwilioProvider(configurationSection));
+    assertEquals("'auth-token' is required.", exception.getMessage());
+  }
+
+  @Test
+  public void invalidCredentialsThrowsAuthenticationException() {
+    // GIVEN
+    String sid = "sid";
+    String authToken = "authToken";
+    String invalidMessage = "invalid login";
+
+    // WHEN
+    when(configurationSection.getString(Constants.CONFIG_SID)).thenReturn(sid);
+    when(configurationSection.getString(Constants.CONFIG_TOKEN)).thenReturn(authToken);
+
+    try (MockedStatic<Twilio> twilio = mockStatic(Twilio.class)) {
+      twilio
+          .when(() -> Twilio.init(sid, authToken))
+          .thenThrow(new AuthenticationException(invalidMessage));
+
+      // THEN
+      Exception exception =
+          assertThrows(
+              AuthenticationException.class, () -> new TwilioProvider(configurationSection));
+      assertEquals("invalid login", exception.getMessage());
     }
-
-    @Test
-    public void missingCredentialsThrowsInvalidPropertyException() {
-        // GIVEN
-        String sid = "sid";
-        String authToken = "";
-
-        // WHEN
-        when(configurationSection.getString(Constants.CONFIG_SID)).thenReturn(sid);
-        when(configurationSection.getString(Constants.CONFIG_TOKEN)).thenReturn(authToken);
-
-        // THEN
-        Exception exception = assertThrows(InvalidPropertyException.class,
-                () -> new TwilioProvider(configurationSection));
-        assertEquals("'auth-token' is required.", exception.getMessage());
-    }
-
-    @Test
-    public void invalidCredentialsThrowsAuthenticationException() {
-        // GIVEN
-        String sid = "sid";
-        String authToken = "authToken";
-        String invalidMessage = "invalid login";
-
-        // WHEN
-        when(configurationSection.getString(Constants.CONFIG_SID)).thenReturn(sid);
-        when(configurationSection.getString(Constants.CONFIG_TOKEN)).thenReturn(authToken);
-
-        try (MockedStatic<Twilio> twilio = mockStatic(Twilio.class)) {
-            twilio.when(() -> Twilio.init(sid, authToken))
-                    .thenThrow(new AuthenticationException(invalidMessage));
-
-            // THEN
-            Exception exception = assertThrows(AuthenticationException.class,
-                    () -> new TwilioProvider(configurationSection));
-            assertEquals("invalid login", exception.getMessage());
-        }
-    }
+  }
 }

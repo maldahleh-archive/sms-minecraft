@@ -7,17 +7,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
 public class SMSMinecraft extends JavaPlugin {
-    private TwilioProvider twilioProvider;
+  private TwilioProvider twilioProvider;
 
-    @Override
-    public void onEnable() {
-        saveDefaultConfig();
+  @Override
+  public void onEnable() {
+    saveDefaultConfig();
 
-        try {
-            twilioProvider = new TwilioProvider(getConfig().getConfigurationSection("twilio"));
-        } catch (InvalidPropertyException e) {
-            getLogger().severe("Plugin shutting down; error=" + e.getMessage());
-            getPluginLoader().disablePlugin(this);
-        }
+    try {
+      twilioProvider = new TwilioProvider(getConfig().getConfigurationSection("twilio"));
+    } catch (InvalidPropertyException e) {
+      getLogger().severe("Plugin shutting down; error=" + e.getMessage());
+      getPluginLoader().disablePlugin(this);
     }
+  }
 }

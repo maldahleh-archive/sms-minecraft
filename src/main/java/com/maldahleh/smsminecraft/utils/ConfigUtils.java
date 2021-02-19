@@ -7,12 +7,13 @@ import org.bukkit.configuration.ConfigurationSection;
 
 @UtilityClass
 public class ConfigUtils {
-    public String getProperty(ConfigurationSection section, String property) throws InvalidPropertyException {
-        String value = section.getString(property);
-        if (StringUtils.isEmpty(value)) {
-            throw new InvalidPropertyException(property);
-        }
-
-        return value;
+  public String getProperty(ConfigurationSection section, String property)
+      throws InvalidPropertyException {
+    String value = section.getString(property);
+    if (StringUtils.isEmpty(value)) {
+      throw new InvalidPropertyException(property);
     }
+
+    return value;
+  }
 }

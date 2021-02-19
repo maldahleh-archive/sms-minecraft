@@ -11,33 +11,36 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
 public class ConfigUtilsTests {
-    private final ConfigurationSection configurationSection = mock(ConfigurationSection.class);
+  private final ConfigurationSection configurationSection = mock(ConfigurationSection.class);
 
-    @Test
-    @SneakyThrows
-    public void returnPropertyWhenPresent() {
-        // GIVEN
-        String input = "dummyProperty";
-        String response = "dummyResponse";
+  @Test
+  @SneakyThrows
+  public void returnPropertyWhenPresent() {
+    // GIVEN
+    String input = "dummyProperty";
+    String response = "dummyResponse";
 
-        // WHEN
-        doReturn(response).when(configurationSection).getString(input);
+    // WHEN
+    doReturn(response).when(configurationSection).getString(input);
 
-        // THEN
-        assertEquals(response, ConfigUtils.getProperty(configurationSection, input));
-    }
+    // THEN
+    assertEquals(response, ConfigUtils.getProperty(configurationSection, input));
+  }
 
-    @Test
-    public void throwExceptionWhenNotPresent() {
-        // GIVEN
-        String input = "dummyProperty";
-        String response = "";
+  @Test
+  public void throwExceptionWhenNotPresent() {
+    // GIVEN
+    String input = "dummyProperty";
+    String response = "";
 
-        // WHEN
-        doReturn(response).when(configurationSection).getString(input);
+    // WHEN
+    doReturn(response).when(configurationSection).getString(input);
 
-        // THEN
-        Exception e = assertThrows(InvalidPropertyException.class, () -> ConfigUtils.getProperty(configurationSection, input));
-        assertEquals("'dummyProperty' is required.", e.getMessage());
-    }
+    // THEN
+    Exception e =
+        assertThrows(
+            InvalidPropertyException.class,
+            () -> ConfigUtils.getProperty(configurationSection, input));
+    assertEquals("'dummyProperty' is required.", e.getMessage());
+  }
 }
