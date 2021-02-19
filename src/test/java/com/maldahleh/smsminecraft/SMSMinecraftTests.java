@@ -1,4 +1,3 @@
 package com.maldahleh.smsminecraft;
 
-public class SMSMinecraftTests {
-}
+public class SMSMinecraftTests {}
