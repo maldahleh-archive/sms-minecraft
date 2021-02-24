@@ -30,10 +30,12 @@ public class TwilioProviderTests {
     // GIVEN
     String sid = "sid";
     String authToken = "authToken";
+    String phoneNumber = "+19050000000";
 
     // WHEN
     when(configurationSection.getString(Constants.CONFIG_SID)).thenReturn(sid);
     when(configurationSection.getString(Constants.CONFIG_TOKEN)).thenReturn(authToken);
+    when(configurationSection.getString(Constants.ORIGIN_NUMBER)).thenReturn(phoneNumber);
     PowerMockito.mockStatic(Twilio.class);
 
     // THEN
@@ -45,10 +47,12 @@ public class TwilioProviderTests {
     // GIVEN
     String sid = "sid";
     String authToken = "";
+    String phoneNumber = "+19050000000";
 
     // WHEN
     when(configurationSection.getString(Constants.CONFIG_SID)).thenReturn(sid);
     when(configurationSection.getString(Constants.CONFIG_TOKEN)).thenReturn(authToken);
+    when(configurationSection.getString(Constants.ORIGIN_NUMBER)).thenReturn(phoneNumber);
 
     // THEN
     Exception exception =
@@ -62,11 +66,13 @@ public class TwilioProviderTests {
     // GIVEN
     String sid = "sid";
     String authToken = "authToken";
+    String phoneNumber = "+19050000000";
     String invalidMessage = "invalid login";
 
     // WHEN
     when(configurationSection.getString(Constants.CONFIG_SID)).thenReturn(sid);
     when(configurationSection.getString(Constants.CONFIG_TOKEN)).thenReturn(authToken);
+    when(configurationSection.getString(Constants.ORIGIN_NUMBER)).thenReturn(phoneNumber);
 
     try (MockedStatic<Twilio> twilio = mockStatic(Twilio.class)) {
       twilio
