@@ -38,4 +38,3 @@ jobs:
         with:
           file: ./target/site/jacoco/jacoco.xml
           flags: unittests
-          fail_ci_if_error: true
