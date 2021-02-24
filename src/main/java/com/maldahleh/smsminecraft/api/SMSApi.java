@@ -5,7 +5,5 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class SMSApi {
-    private final TwilioProvider twilioProvider;
-
-
+  private final TwilioProvider twilioProvider;
 }
